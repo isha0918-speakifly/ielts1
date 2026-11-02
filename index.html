@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Speakifly · IELTS Reading Practice</title>
+<link rel="icon" href="assets/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=Source+Serif+4:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#07084a;--ink:#1b1c3a;--gold:#f2b632;--bg:#f5f6fc;--card:#fff;--line:#dcdef2;--ok:#1a7f4b;--bad:#b3261e}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 Sora,system-ui,sans-serif}
+header{background:#fff;border-bottom:4px solid var(--navy);position:sticky;top:0;z-index:5}
+.bar{max-width:1100px;margin:auto;padding:12px 20px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.bar img{height:40px;display:block;cursor:pointer}
+.stat{font-size:14px;color:var(--navy);font-weight:600}
+main{max-width:1100px;margin:auto;padding:28px 20px 60px}
+.hero{background:var(--navy);color:#fff;border-radius:6px 36px 6px 36px;padding:36px 32px;margin-bottom:28px;position:relative;overflow:hidden}
+.hero h1{margin:0 0 8px;font-size:clamp(26px,4vw,40px);line-height:1.15;max-width:640px}
+.hero p{margin:0;max-width:520px;color:#c9cbf0}
+.hero::after{content:"";position:absolute;right:-30px;top:-30px;width:150px;height:150px;background:var(--gold);transform:rotate(45deg);opacity:.95}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:16px}
+.card{background:var(--card);border:1px solid var(--line);border-left:6px solid var(--navy);border-radius:4px 18px 4px 18px;padding:18px;cursor:pointer;text-align:left;font:inherit;color:inherit}
+.card:hover,.card:focus-visible{border-left-color:var(--gold);outline:none;box-shadow:0 0 0 2px var(--navy)}
+.card b{display:block;font-size:17px;color:var(--navy)}
+.card small{color:#5b5d85}
+.tag{float:right;font-size:13px;font-weight:700;color:var(--ok)}
+.read{display:grid;grid-template-columns:1.2fr 1fr;gap:22px;align-items:start}
+@media(max-width:820px){.read{grid-template-columns:1fr}}
+.pass,.qs{background:#fff;border:1px solid var(--line);border-radius:4px 18px 4px 18px;padding:24px}
+.pass h2{margin:0 0 12px;color:var(--navy)}
+.pass p{font:18px/1.75 "Source Serif 4",Georgia,serif;margin:0;max-width:68ch}
+.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;gap:10px}
+.btn{background:var(--navy);color:#fff;border:0;border-radius:999px;padding:10px 22px;font:600 15px Sora,sans-serif;cursor:pointer}
+.btn.alt{background:#fff;color:var(--navy);border:2px solid var(--navy)}
+.btn:focus-visible{outline:3px solid var(--gold)}
+.timer{font-weight:700;color:var(--navy);background:#fff3d1;border-radius:999px;padding:6px 16px}
+.q{padding:14px 0;border-bottom:1px solid var(--line)}
+.q p{margin:0 0 8px;font-weight:600}
+.q label{display:block;padding:6px 10px;border-radius:8px;cursor:pointer}
+.q label:hover{background:var(--bg)}
+.q.right{border-left:4px solid var(--ok);padding-left:10px}
+.q.wrong{border-left:4px solid var(--bad);padding-left:10px}
+.fb{font-size:14px;margin-top:4px}
+.score{background:var(--navy);color:#fff;border-radius:12px;padding:14px 18px;margin-bottom:12px}
+footer{text-align:center;color:#6b6d93;font-size:13px;padding:20px}
+@media(prefers-reduced-motion:no-preference){.hero::after{transition:transform .6s}.hero:hover::after{transform:rotate(90deg)}}
+</style>
+</head>
+<body>
+<header><div class="bar">
+  <!-- Transparent logo blends with the white header and navy theme -->
+  <img src="assets/logo.png" alt="Speakifly home" id="home" tabindex="0">
+  <span class="stat" id="stat"></span>
+</div></header>
+<main id="app"></main>
+<footer>Speakifly · Practice passages are original, written in IELTS Academic style.</footer>
+
+<script>
+// Question formats:
+//  True/False/Not Given: ["statement", answerIndex]  (0=True, 1=False, 2=Not Given)
+//  Multiple choice:      ["question", [options], correctIndex]
+const TFNG=["True","False","Not Given"];
+const DATA=[
+{t:"The Hidden Language of Honeybees",p:"When a forager honeybee finds a rich source of nectar, she returns to the hive and performs a “waggle dance” on the vertical comb. The angle of her run relative to vertical shows the direction of the food relative to the sun, while the duration of the waggle indicates distance: roughly one second for every kilometre. Karl von Frisch decoded this system in the 1940s and later shared a Nobel Prize for the discovery. Some scientists doubted that other bees truly used the information, until experiments with robotic bees in the 2000s showed that recruits flew to the locations indicated by the artificial dance.",q:[["Karl von Frisch received his Nobel Prize alone.",1],["The length of the waggle shows how far away the food is.",0],["The robotic bee experiments showed that…",["bees ignore the dance","recruits followed the artificial dance","robots were rejected by the hive"],1]]},
+{t:"A Short History of Tea",p:"Tea was first drunk in China, where it was valued as medicine before becoming an everyday drink. By the eighth century, a scholar had written a book on its preparation. Dutch traders brought tea to Europe in the early seventeenth century, but high taxes made it a luxury for the wealthy for many decades. Britain’s demand grew so large that merchants began cultivating tea in India during the nineteenth century to reduce dependence on Chinese supplies. Today, India remains among the world’s largest producers, although most of its crop is consumed domestically.",q:[["Tea was first consumed as a medicine.",0],["Tea was affordable for most Europeans in the 1600s.",1],["Why did British merchants grow tea in India?",["Chinese tea was poor quality","To reduce reliance on China","Indian tea was cheaper to tax"],1]]},
+{t:"Cities That Grow Upwards",p:"Green roofs, which are planted layers installed on top of buildings, have moved from curiosity to policy in many cities. They absorb rainwater, easing pressure on drains during storms, and they insulate buildings, reducing the energy used for heating and cooling. On hot days a vegetated roof can be dozens of degrees cooler than a conventional one. Critics point to higher installation costs and the need for structural reinforcement. Supporters reply that longer roof lifespans offset the initial expense. Some cities now require green roofs on new large buildings, though research on the precise long-term savings is still limited.",q:[["Green roofs can reduce pressure on drains in storms.",0],["Every city now requires green roofs on new buildings.",1],["The critics’ main concern is…",["cost and structural needs","appearance","damage from pests"],0]]},
+{t:"Sleep and Memory",p:"During sleep, the brain does not simply switch off. Researchers have found that memories formed during the day are replayed at high speed, particularly during deep sleep, which helps move information from short-term to long-term storage. In one study, students who slept after learning a list of words recalled significantly more the next day than those who stayed awake for the same period. A short nap of around twenty minutes can offer some benefit, though it is less effective than a full night. Scientists still disagree about how much sleep adults actually need.",q:[["Memories are replayed during deep sleep.",0],["A short nap is more effective than a full night of sleep.",1],["More than one hundred students took part in the study.",2]]},
+{t:"Coral Under Pressure",p:"Coral reefs cover less than one per cent of the ocean floor yet support roughly a quarter of all marine species. Corals live in partnership with tiny algae that provide them with food and colour. When seawater becomes too warm, corals expel these algae and turn white, a process known as bleaching. Bleached corals are not dead, but they starve if temperatures do not fall quickly. Some restoration projects grow fragments of heat-tolerant coral in nurseries before attaching them to damaged reefs. While promising, scientists stress that such efforts cannot replace reductions in global emissions.",q:[["Bleached corals are already dead.",1],["Reefs cover less than one per cent of the ocean floor.",0],["Scientists believe restoration projects…",["can replace emission cuts","are promising but not a substitute","have completely failed"],1]]},
+{t:"The Printing Revolution",p:"Before the fifteenth century, books in Europe were copied by hand, a slow process that made them rare and expensive. Johannes Gutenberg’s introduction of movable metal type around 1450 allowed text to be produced far faster. Within fifty years, millions of volumes had been printed across Europe. Cheaper books increased literacy and helped ideas, including religious and scientific arguments, spread quickly. Printing did not, however, eliminate handwritten texts overnight; many scribes continued working for decades, particularly on luxury editions.",q:[["Gutenberg introduced movable metal type in Europe.",0],["Handwritten books disappeared soon after printing began.",1],["Gutenberg became very wealthy from printing.",2]]},
+{t:"Tiny Plastics, Big Questions",p:"Microplastics are fragments smaller than five millimetres, produced when larger items break down or when synthetic clothing sheds fibres in the wash. They have been detected in oceans, soil, drinking water and even human blood. Researchers are still working out whether the quantities people absorb are harmful. Laboratory studies on animals suggest possible inflammation, but results do not automatically apply to humans. Some countries have banned plastic microbeads in cosmetics, while engineers are developing washing-machine filters that capture fibres before they enter wastewater.",q:[["Microplastics are defined as fragments under five millimetres.",0],["It has been proved that microplastics harm humans.",1],["Washing-machine filters are designed to…",["capture fibres","dissolve plastic","detect blood contamination"],0]]},
+{t:"The Office Reimagined",p:"Remote working expanded rapidly in the early 2020s, and many companies have since adopted hybrid arrangements in which employees split their week between home and office. Surveys suggest that workers value the flexibility and savings on commuting. Managers, however, report concerns about collaboration and the training of new staff, who may miss informal learning from colleagues. Some firms have responded by designating particular days when whole teams attend together. Evidence on productivity remains mixed, with results varying according to the type of job and the quality of management.",q:[["Hybrid working means dividing the week between home and office.",0],["Research clearly shows productivity falls when people work remotely.",1],["Some firms set team days in order to…",["cut costs","ensure teams collaborate in person","reduce commuting"],1]]},
+{t:"Minds Without Backbones",p:"The octopus has around five hundred million neurons, comparable to a dog, yet two thirds of them are located in its arms rather than its brain. Each arm can taste, touch and make simple decisions independently. Octopuses have been observed solving puzzles, unscrewing jars and escaping from tanks, and some individuals appear to recognise human keepers. Despite this intelligence, their lives are short: most species live only one to two years. Researchers speculate that this brief lifespan limits the opportunity to pass learning on, as young octopuses rarely meet their parents.",q:[["Most of an octopus’s neurons are in its arms.",0],["Octopuses commonly live for more than five years.",1],["Octopuses communicate by changing colour.",2]]},
+{t:"Storing the Sun",p:"Solar and wind power are cheap but intermittent, producing electricity only when the sun shines or the wind blows. Storage is therefore central to the energy transition. Lithium-ion batteries dominate today, but they are expensive for storing energy over many days. Alternatives include pumped hydropower, in which water is raised to a reservoir and released through turbines when needed, and “gravity” systems that lift heavy blocks. Another approach converts surplus electricity into hydrogen, though some energy is lost at each conversion step.",q:[["Wind and solar generate power only at certain times.",0],["Lithium-ion batteries are the cheapest option for multi-day storage.",1],["A disadvantage of hydrogen storage is that…",["it is toxic","energy is lost during conversion","it is too heavy to transport"],1]]}
+];
+
+const $=s=>document.querySelector(s), app=$("#app");
+const load=()=>{try{return JSON.parse(localStorage.getItem("spk")||"{}")}catch(e){return{}}};
+const save=r=>{try{localStorage.setItem("spk",JSON.stringify(r))}catch(e){}};
+let timer;
+
+function stats(){const r=load(),n=Object.keys(r).length;
+  $("#stat").textContent=n?`${n}/10 completed`:"10 passages";}
+
+function home(){
+  clearInterval(timer);const r=load();stats();
+  app.innerHTML=`<section class="hero"><h1>Read sharper. Score higher.</h1>
+  <p>Ten Academic-style passages, 20 minutes each. Answer the questions, then check your score straight away.</p></section>
+  <div class="grid">${DATA.map((d,i)=>`<button class="card" data-i="${i}">
+   ${r[i]!=null?`<span class="tag">${r[i]}/3</span>`:""}<small>Passage ${i+1}</small><b>${d.t}</b></button>`).join("")}</div>`;
+  app.querySelectorAll(".card").forEach(c=>c.onclick=()=>open(+c.dataset.i));
+}
+
+function open(i){
+  const d=DATA[i];let left=20*60;
+  app.innerHTML=`<div class="top"><button class="btn alt" id="back">Back to passages</button><span class="timer" id="tm"></span></div>
+  <div class="read"><article class="pass"><h2>${d.t}</h2><p>${d.p}</p></article>
+  <section class="qs"><div id="res"></div>${d.q.map((q,k)=>{
+    const mc=q.length===3,opts=mc?q[1]:TFNG;
+    return `<div class="q" id="q${k}"><p>${k+1}. ${q[0]}</p>${opts.map((o,j)=>
+     `<label><input type="radio" name="q${k}" value="${j}"> ${o}</label>`).join("")}<div class="fb"></div></div>`}).join("")}
+   <button class="btn" id="sub">Check answers</button></section></div>`;
+  $("#back").onclick=home;
+  const tick=()=>{const m=Math.floor(left/60),s=left%60;$("#tm").textContent=`${m}:${String(s).padStart(2,"0")}`;if(left--<=0){clearInterval(timer);check()}};
+  clearInterval(timer);tick();timer=setInterval(tick,1000);
+  let done=false;
+  function check(){
+    if(done)return;done=true;clearInterval(timer);let sc=0;
+    d.q.forEach((q,k)=>{
+      const mc=q.length===3,ans=mc?q[2]:q[1],opts=mc?q[1]:TFNG;
+      const pick=document.querySelector(`input[name=q${k}]:checked`);
+      const ok=pick&&+pick.value===ans;if(ok)sc++;
+      const box=$("#q"+k);box.classList.add(ok?"right":"wrong");
+      box.querySelector(".fb").innerHTML=ok?"Correct":`Correct answer: <b>${opts[ans]}</b>`;
+      box.querySelectorAll("input").forEach(x=>x.disabled=true);
+    });
+    const r=load();r[i]=Math.max(sc,r[i]||0);save(r);stats();
+    $("#res").innerHTML=`<div class="score"><b>Score: ${sc}/3</b></div>`;
+    $("#sub").remove();window.scrollTo({top:0,behavior:"smooth"});
+  }
+  $("#sub").onclick=check;
+}
+$("#home").onclick=home;
+$("#home").onkeydown=e=>{if(e.key==="Enter")home()};
+home();
+</script>
+</body>
+</html>
